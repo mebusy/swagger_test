@@ -9,13 +9,13 @@ mkdir -p $DIST_DIR
 
 OPENAPI_FILE=../openapi.yaml
 
-for item in types spec
+for item in types spec gorilla
 do
     oapi-codegen -package ${PACKAGE} -generate $item  ${OPENAPI_FILE} > $DIST_DIR/$item.gen.go
 done
 
 # srv code
-oapi-codegen --config=srv.cfg.yaml ${OPENAPI_FILE}
+# oapi-codegen --config=srv.cfg.yaml ${OPENAPI_FILE}
 
 
 
