@@ -45,7 +45,7 @@ func CustomErrorHandler(w http.ResponseWriter, message string, statusCode int) {
 			message = message[idx:]
 		}
 
-		var res = ResErrorCode{Errcode: ERR_VALIDATOR_ERROR, Errmsg: message}
+		var res = ResErrorCode{Errcode: ERR_VALIDATOR_ERROR, Errmsg: &message}
 		json.NewEncoder(w).Encode(res)
 		return
 	}

@@ -20,7 +20,7 @@ func (e ResErrorCode) Error() string {
 func NewResError(code int32, msg string) ResErrorCode {
 	return ResErrorCode{
 		Errcode: code,
-		Errmsg:  msg,
+		Errmsg:  &msg,
 	}
 }
 

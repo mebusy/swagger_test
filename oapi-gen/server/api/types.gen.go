@@ -9,8 +9,8 @@ const (
 
 // ErrorCode defines model for ErrorCode.
 type ErrorCode struct {
-	Errcode int32  `json:"errcode"`
-	Errmsg  string `json:"errmsg"`
+	Errcode int32   `json:"errcode"`
+	Errmsg  *string `json:"errmsg,omitempty"`
 }
 
 // User defines model for User.
