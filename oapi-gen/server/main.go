@@ -31,7 +31,7 @@ func main() {
 	swagger.Servers = nil
 
 	// Create an instance of our handler which satisfies the generated interface
-	petStore := api.NewPetStore()
+	srvApi := api.NewAPI()
 
 	// This is how you set up a basic Gorilla router
 	r := mux.NewRouter()
@@ -40,14 +40,15 @@ func main() {
 	// OpenAPI schema.
 	r.Use(middleware.OapiRequestValidator(swagger))
 
-	// We now register our petStore above as the handler for the interface
-	api.HandlerFromMux(petStore, r)
+	// We now register our srvApi above as the handler for the interface
+	api.HandlerFromMux(srvApi, r)
 
 	s := &http.Server{
 		Handler: r,
 		Addr:    fmt.Sprintf("0.0.0.0:%d", *port),
 	}
 
+	fmt.Println("Listening on port", *port)
 	// And we serve HTTP until the world ends.
 	log.Fatal(s.ListenAndServe())
 }
