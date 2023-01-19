@@ -16,6 +16,9 @@ type ServerInterface interface {
 	// return user info
 	// (GET /user)
 	GetUser(w http.ResponseWriter, r *http.Request)
+	// Creates a new user.
+	// (POST /user)
+	PostUser(w http.ResponseWriter, r *http.Request)
 }
 
 // ServerInterfaceWrapper converts contexts to parameters.
@@ -35,6 +38,23 @@ func (siw *ServerInterfaceWrapper) GetUser(w http.ResponseWriter, r *http.Reques
 
 	var handler = func(w http.ResponseWriter, r *http.Request) {
 		siw.Handler.GetUser(w, r)
+	}
+
+	for _, middleware := range siw.HandlerMiddlewares {
+		handler = middleware(handler)
+	}
+
+	handler(w, r.WithContext(ctx))
+}
+
+// PostUser operation middleware
+func (siw *ServerInterfaceWrapper) PostUser(w http.ResponseWriter, r *http.Request) {
+	ctx := r.Context()
+
+	ctx = context.WithValue(ctx, ApiKeyAuthScopes, []string{""})
+
+	var handler = func(w http.ResponseWriter, r *http.Request) {
+		siw.Handler.PostUser(w, r)
 	}
 
 	for _, middleware := range siw.HandlerMiddlewares {
@@ -158,6 +178,8 @@ func HandlerWithOptions(si ServerInterface, options GorillaServerOptions) http.H
 	}
 
 	r.HandleFunc(options.BaseURL+"/user", wrapper.GetUser).Methods("GET")
+
+	r.HandleFunc(options.BaseURL+"/user", wrapper.PostUser).Methods("POST")
 
 	return r
 }

@@ -12,5 +12,14 @@ type ErrorCode struct {
 	Errcode *int32 `json:"errcode,omitempty"`
 }
 
+// User defines model for User.
+type User struct {
+	Id   int64  `json:"id"`
+	Name string `json:"name"`
+}
+
 // ResErrorCode defines model for ResErrorCode.
 type ResErrorCode = ErrorCode
+
+// PostUserJSONRequestBody defines body for PostUser for application/json ContentType.
+type PostUserJSONRequestBody = User
