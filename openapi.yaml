@@ -22,8 +22,20 @@ paths:
       responses:
         200:
           $ref: '#/components/responses/ResErrorCode'
-
-
+          
+    post:
+      tags:
+        - user
+      summary: Creates a new user.
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/User" # <-------
+      responses:
+        200:
+          $ref: '#/components/responses/ResErrorCode'
 
 components:
   securitySchemes:
@@ -54,7 +66,8 @@ components:
           
   responses:
     ResErrorCode:
-      description: '{errcode: \d+}'
+      description: errcode - 0 if successful.
+                   otherwise means error happen.
       content:
         application/json:          
           schema:
