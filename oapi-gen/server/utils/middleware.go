@@ -18,7 +18,7 @@ func LoggingMiddleware(next http.Handler) http.Handler {
 			data, err := httputil.DumpRequest(r, true)
 
 			if err == nil {
-				log.Println("client:"+r.RemoteAddr, " req:", string(data))
+				log.Printf("client: %s, req: %s\n", r.RemoteAddr, string(data))
 			} else {
 				log.Println("DumpRequest:", err.Error())
 			}
