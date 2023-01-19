@@ -15,4 +15,5 @@ docker run --rm -v `pwd`:/local swaggerapi/swagger-codegen-cli-v3 generate \
     -l go-server \
     -o /local/${DIST}
 
-
+# replace relative import paht in the generated main.go
+sed -i '' 's/".\/go"/"server\/go"/g' server/main.go
