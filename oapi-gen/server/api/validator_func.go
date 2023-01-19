@@ -4,7 +4,7 @@ import (
 	"context"
 	"encoding/json"
 	"errors"
-	"fmt"
+	// "fmt"
 
 	"net/http"
 	"strings"
@@ -22,17 +22,15 @@ func CustomAuthenticationFunc(c context.Context, input *openapi3filter.Authentic
 		return errors.New("apiKey not found, or not in header")
 	}
 	token := input.RequestValidationInput.Request.Header.Get(input.SecurityScheme.Name)
-	fmt.Printf("token: %s\n", token)
+	_ = token
+	// fmt.Printf("token: %s\n", token)
 
 	return nil
 }
 
 // validator error
 func CustomErrorHandler(w http.ResponseWriter, message string, statusCode int) {
-	// valid error
-
-	fmt.Printf("CustomErrorHandler -- %+v\n", message)
-
+	// validator error
 	err := Json2ResErrorCode(message)
 	if err.Errcode > 0 {
 		// custom error

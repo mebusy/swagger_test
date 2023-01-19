@@ -10,6 +10,7 @@ import (
 	"log"
 	"net/http"
 	"os"
+	"time"
 
 	middleware "github.com/deepmap/oapi-codegen/pkg/chi-middleware"
 	"github.com/gorilla/mux"
@@ -37,6 +38,8 @@ func main() {
 	// This is how you set up a basic Gorilla router
 	r := mux.NewRouter()
 
+	r.Use(utils.LoggingMiddleware)
+
 	validatorOptions := &middleware.Options{}
 	// Authentication option
 	validatorOptions.Options.AuthenticationFunc = api.CustomAuthenticationFunc
@@ -53,7 +56,11 @@ func main() {
 
 	s := &http.Server{
 		Handler: utils.CorsObj.Handler(r),
-		Addr:    fmt.Sprintf("0.0.0.0:%d", *port),
+		Addr:    fmt.Sprintf(":%d", *port),
+		// Good practice to set timeouts to avoid Slowloris attacks.
+		WriteTimeout: time.Second * 15,
+		ReadTimeout:  time.Second * 15,
+		IdleTimeout:  time.Second * 60,
 	}
 
 	fmt.Println("Listening on port", *port)
