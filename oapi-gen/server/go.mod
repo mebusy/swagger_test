@@ -6,6 +6,7 @@ require (
 	github.com/deepmap/oapi-codegen v1.12.4
 	github.com/getkin/kin-openapi v0.112.0
 	github.com/gorilla/mux v1.8.0
+	github.com/rs/cors v1.8.3
 )
 
 require (

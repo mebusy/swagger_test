@@ -14,6 +14,7 @@ import (
 	middleware "github.com/deepmap/oapi-codegen/pkg/chi-middleware"
 	"github.com/gorilla/mux"
 	"server/api"
+	"server/utils"
 )
 
 func main() {
@@ -51,7 +52,7 @@ func main() {
 	api.HandlerFromMux(srvApi, r)
 
 	s := &http.Server{
-		Handler: r,
+		Handler: utils.CorsObj.Handler(r),
 		Addr:    fmt.Sprintf("0.0.0.0:%d", *port),
 	}
 
