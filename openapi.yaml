@@ -1,0 +1,65 @@
+openapi: 3.0.0
+
+info:
+  title: m-server # Note. title is your API name
+  description: simple testing swagger
+  version: 0.0.1 # Note. an arbitrary string that specifies the version of your own API
+
+servers: # Note. API server and base URL
+  - url: http://localhost:3000
+    description: local server
+
+security: # apply 1 only aothorization globally
+  - ApiKeyAuth: []
+
+
+paths:
+  /user:
+    get:
+      tags:
+        - user
+      summary: return user info
+      responses:
+        200:
+          $ref: '#/components/responses/ErrorCode'
+
+
+
+components:
+  securitySchemes:
+    ApiKeyAuth:
+      type: apiKey
+      in: header
+      name: token
+
+  schemas:
+    User:
+      type: object
+      properties:
+        id:
+          type: integer
+          format: int64
+          example: 4
+        name:
+          type: string
+          example: Arthur Dent
+      required:
+        - id
+        - name
+      
+    ErrorCode:
+      properties:
+        errcode:
+          type: integer
+          format: int32
+          
+  responses:
+    ErrorCode:
+      description: '{errcode: \d+}'
+      content:
+        application/json:          
+          schema:
+            $ref: '#/components/schemas/ErrorCode'
+
+
+            
