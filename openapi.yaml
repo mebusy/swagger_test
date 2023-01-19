@@ -12,7 +12,6 @@ servers: # Note. API server and base URL
 security: # apply 1 only aothorization globally
   - ApiKeyAuth: []
 
-
 paths:
   /user:
     get:
@@ -21,8 +20,8 @@ paths:
       summary: return user info
       responses:
         200:
-          $ref: '#/components/responses/ResErrorCode'
-          
+          $ref: "#/components/responses/ResErrorCode"
+
     post:
       tags:
         - user
@@ -35,7 +34,7 @@ paths:
               $ref: "#/components/schemas/User" # <-------
       responses:
         200:
-          $ref: '#/components/responses/ResErrorCode'
+          $ref: "#/components/responses/ResErrorCode"
 
 components:
   securitySchemes:
@@ -51,6 +50,7 @@ components:
         id:
           type: integer
           format: int64
+          minimum: 100
           example: 4
         name:
           type: string
@@ -63,15 +63,12 @@ components:
         errcode:
           type: integer
           format: int32
-          
+
   responses:
     ResErrorCode:
       description: errcode - 0 if successful.
-                   otherwise means error happen.
+        otherwise means error happen.
       content:
-        application/json:          
+        application/json:
           schema:
-            $ref: '#/components/schemas/ErrorCode'
-
-
-            
+            $ref: "#/components/schemas/ErrorCode"
