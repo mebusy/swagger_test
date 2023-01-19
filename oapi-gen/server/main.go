@@ -36,10 +36,11 @@ func main() {
 	// This is how you set up a basic Gorilla router
 	r := mux.NewRouter()
 
-	// Authentication option
 	validatorOptions := &middleware.Options{}
+	// Authentication option
 	validatorOptions.Options.AuthenticationFunc = api.CustomAuthenticationFunc
-	// end Authentication option
+	// Error handler
+	validatorOptions.ErrorHandler = api.CustomErrorHandler
 
 	// Use our validation middleware to check all requests against the
 	// OpenAPI schema.
