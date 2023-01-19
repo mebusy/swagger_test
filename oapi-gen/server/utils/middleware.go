@@ -1,8 +1,10 @@
 package utils
 
 import (
+	"io/ioutil"
 	"log"
 	"net/http"
+	"net/http/httptest"
 	"net/http/httputil"
 )
 
@@ -23,7 +25,24 @@ func LoggingMiddleware(next http.Handler) http.Handler {
 				log.Println("DumpRequest:", err.Error())
 			}
 			// Call the next handler, which can be another middleware in the chain, or the final handler.
-			next.ServeHTTP(w, r)
+			rec := httptest.NewRecorder()
+
+			next.ServeHTTP(rec, r)
+
+			res := rec.Result()
+
+			// this copies the recorded response to the response writer
+			for k, v := range rec.HeaderMap {
+				w.Header()[k] = v
+			}
+			// write http status code
+			w.WriteHeader(rec.Code)
+			// write body
+			body, _ := ioutil.ReadAll(res.Body)
+			res.Body.Close()
+			w.Write(body)
+
+			log.Printf("response: %s", body)
 		}
 
 	})
