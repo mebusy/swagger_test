@@ -64,8 +64,10 @@ components:
         errcode:
           type: integer
           format: int32
-        errinfo:
+        errmsg:
           type: string
+      required:
+        - errcode
           
   responses:
     ResErrorCode:

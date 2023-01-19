@@ -2,7 +2,8 @@ package api
 
 import (
 	"context"
-	"fmt"
+	"encoding/json"
+	// "fmt"
 	"github.com/getkin/kin-openapi/openapi3filter"
 	"net/http"
 )
@@ -15,5 +16,6 @@ func CustomAuthenticationFunc(c context.Context, input *openapi3filter.Authentic
 func CustomErrorHandler(w http.ResponseWriter, message string, statusCode int) {
 	// fmt.Println(">>>> INSIDE ErrorHandler")
 	// valid error
-	fmt.Fprintf(w, "Error: %s", message)
+	var res = ResErrorCode{Errmsg: &message}
+	json.NewEncoder(w).Encode(res)
 }
