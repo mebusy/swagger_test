@@ -51,11 +51,12 @@ components:
         id:
           type: integer
           format: int64
-          minimum: 100
-          example: 4
+          minimum: 10
+          example: 10
         name:
           type: string
-          example: Arthur Dent
+          pattern: '^[A-Za-z0-9-_]+$'
+          example: Arthur-Dent
       required:
         - id
         - name
