@@ -16,7 +16,24 @@ paths:
       summary: return user info
       responses:
         "200":
-          description: "{errcode: \\d+}"
+          description: errcode - 0 if successful. otherwise means error happen.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorCode'
+    post:
+      tags:
+      - user
+      summary: Creates a new user.
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/User'
+        required: true
+      responses:
+        "200":
+          description: errcode - 0 if successful. otherwise means error happen.
           content:
             application/json:
               schema:
@@ -45,7 +62,7 @@ components:
         errcode: 0
   responses:
     ResErrorCode:
-      description: "{errcode: \\d+}"
+      description: errcode - 0 if successful. otherwise means error happen.
       content:
         application/json:
           schema:
