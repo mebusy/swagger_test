@@ -1,12 +1,18 @@
 package utils
 
 import (
+	"fmt"
+	"github.com/fatih/color"
 	"io/ioutil"
 	"log"
 	"net/http"
 	"net/http/httptest"
 	"net/http/httputil"
 )
+
+func init() {
+	color.NoColor = false
+}
 
 // type MiddlewareFunc func(http.Handler) http.Handler
 // must register before  body-reading method
@@ -20,7 +26,7 @@ func LoggingMiddleware(next http.Handler) http.Handler {
 			data, err := httputil.DumpRequest(r, true)
 
 			if err == nil {
-				log.Printf("client: %s, req: %s\n", r.RemoteAddr, string(data))
+				log.Printf("%s %s\n", color.YellowString(fmt.Sprintf("client: %s, req: ", r.RemoteAddr)), string(data))
 			} else {
 				log.Println("DumpRequest:", err.Error())
 			}
@@ -42,7 +48,7 @@ func LoggingMiddleware(next http.Handler) http.Handler {
 			res.Body.Close()
 			w.Write(body)
 
-			log.Printf("response: %s", body)
+			log.Printf("%s: %s", color.CyanString("response"), body)
 		}
 
 	})
