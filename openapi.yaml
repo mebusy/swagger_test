@@ -68,6 +68,7 @@ components:
           type: string
       required:
         - errcode
+        - errmsg
           
   responses:
     ResErrorCode:
