@@ -44,7 +44,7 @@ components:
       example:
         errcode: 0
   responses:
-    ErrorCode:
+    ResErrorCode:
       description: "{errcode: \\d+}"
       content:
         application/json:

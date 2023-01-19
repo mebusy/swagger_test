@@ -21,7 +21,7 @@ paths:
       summary: return user info
       responses:
         200:
-          $ref: '#/components/responses/ErrorCode'
+          $ref: '#/components/responses/ResErrorCode'
 
 
 
@@ -46,7 +46,6 @@ components:
       required:
         - id
         - name
-      
     ErrorCode:
       properties:
         errcode:
@@ -54,7 +53,7 @@ components:
           format: int32
           
   responses:
-    ErrorCode:
+    ResErrorCode:
       description: '{errcode: \d+}'
       content:
         application/json:          
