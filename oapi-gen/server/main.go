@@ -36,15 +36,15 @@ func main() {
 	// This is how you set up a basic Gorilla router
 	r := mux.NewRouter()
 
-	// Authentication middleware
+	// Authentication option
 	validatorOptions := &middleware.Options{}
 	validatorOptions.Options.AuthenticationFunc = api.CustomAuthenticationFunc
-	// end Authentication middleware
+	// end Authentication option
 
 	// Use our validation middleware to check all requests against the
 	// OpenAPI schema.
 	// r.Use(middleware.OapiRequestValidator(swagger))
-	r.Use(middleware.OapiRequestValidatorWithOptions(swagger, validatorOptions))
+	r.Use(middleware.OapiRequestValidatorWithOptions(swagger, validatorOptions)) // use Authentication option
 
 	// We now register our srvApi above as the handler for the interface
 	api.HandlerFromMux(srvApi, r)
