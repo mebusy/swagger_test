@@ -1,0 +1,57 @@
+openapi: 3.0.0
+info:
+  title: m-server
+  description: simple testing swagger
+  version: 0.0.1
+servers:
+- url: http://localhost:3000
+  description: local server
+security:
+- ApiKeyAuth: []
+paths:
+  /user:
+    get:
+      tags:
+      - user
+      summary: return user info
+      responses:
+        "200":
+          description: "{errcode: \\d+}"
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorCode'
+components:
+  schemas:
+    User:
+      required:
+      - id
+      - name
+      type: object
+      properties:
+        id:
+          type: integer
+          format: int64
+          example: 4
+        name:
+          type: string
+          example: Arthur Dent
+    ErrorCode:
+      properties:
+        errcode:
+          type: integer
+          format: int32
+      example:
+        errcode: 0
+  responses:
+    ErrorCode:
+      description: "{errcode: \\d+}"
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/ErrorCode'
+  securitySchemes:
+    ApiKeyAuth:
+      type: apiKey
+      name: token
+      in: header
