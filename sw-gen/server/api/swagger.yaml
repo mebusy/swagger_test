@@ -47,6 +47,7 @@ components:
       type: object
       properties:
         id:
+          minimum: 100
           type: integer
           format: int64
           example: 4
