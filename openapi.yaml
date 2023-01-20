@@ -14,6 +14,21 @@ security: # apply 1 only aothorization globally
 
 
 paths:
+  /login:
+    post:
+      tags:
+        - login
+      summary: login & acquire apikey from server
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/Login" # <-------
+      responses:
+        200:
+          $ref: '#/components/responses/ResLogin'
+          
   /user:
     get:
       tags:
@@ -45,6 +60,26 @@ components:
       name: token
 
   schemas:
+    Login:
+      type: object
+      properties:
+        openId:
+          type: string
+          pattern: '^[A-Za-z0-9-]+$'
+          example: "123e4567-e89b-12d3-a456-426614174000"
+        platform:
+          type: string
+          enum:
+            - 'android'
+            - 'iphone'
+          example: "iphone"
+        channelId:
+          type: integer
+          enum: [0, 1, 2]
+          description: 0 for dev, 1 for wchat, 2 for qq
+      required:
+        - openId
+        - platform
     User:
       type: object
       properties:
@@ -89,6 +124,20 @@ components:
                 properties:
                   data: # insert `User` to `ErrorCode` struct as a key-value pair
                     $ref: "#/components/schemas/User"
+    ResLogin:
+      description: acquire token
+      content:
+        application/json:
+          schema:
+            allOf:
+              - $ref: '#/components/schemas/ErrorCode'
+              - type: object
+                properties:
+                  data: 
+                    type: object
+                    properties:
+                      token:  # apikey
+                        type: string
 
 
             

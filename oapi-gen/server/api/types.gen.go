@@ -7,11 +7,38 @@ const (
 	ApiKeyAuthScopes = "ApiKeyAuth.Scopes"
 )
 
+// Defines values for LoginChannelId.
+const (
+	N0 LoginChannelId = 0
+	N1 LoginChannelId = 1
+	N2 LoginChannelId = 2
+)
+
+// Defines values for LoginPlatform.
+const (
+	Android LoginPlatform = "android"
+	Iphone  LoginPlatform = "iphone"
+)
+
 // ErrorCode defines model for ErrorCode.
 type ErrorCode struct {
 	Errcode int32   `json:"errcode"`
 	Errmsg  *string `json:"errmsg,omitempty"`
 }
+
+// Login defines model for Login.
+type Login struct {
+	// ChannelId 0 for dev, 1 for wchat, 2 for qq
+	ChannelId *LoginChannelId `json:"channelId,omitempty"`
+	OpenId    string          `json:"openId"`
+	Platform  LoginPlatform   `json:"platform"`
+}
+
+// LoginChannelId 0 for dev, 1 for wchat, 2 for qq
+type LoginChannelId int
+
+// LoginPlatform defines model for Login.Platform.
+type LoginPlatform string
 
 // User defines model for User.
 type User struct {
@@ -22,12 +49,24 @@ type User struct {
 // ResError defines model for ResError.
 type ResError = ErrorCode
 
+// ResLogin defines model for ResLogin.
+type ResLogin struct {
+	Data *struct {
+		Token *string `json:"token,omitempty"`
+	} `json:"data,omitempty"`
+	Errcode int32   `json:"errcode"`
+	Errmsg  *string `json:"errmsg,omitempty"`
+}
+
 // ResUserGet defines model for ResUserGet.
 type ResUserGet struct {
 	Data    *User   `json:"data,omitempty"`
 	Errcode int32   `json:"errcode"`
 	Errmsg  *string `json:"errmsg,omitempty"`
 }
+
+// PostLoginJSONRequestBody defines body for PostLogin for application/json ContentType.
+type PostLoginJSONRequestBody = Login
 
 // PostUserJSONRequestBody defines body for PostUser for application/json ContentType.
 type PostUserJSONRequestBody = User
