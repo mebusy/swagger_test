@@ -7,17 +7,17 @@ const (
 	ApiKeyAuthScopes = "ApiKeyAuth.Scopes"
 )
 
-// Defines values for LoginChannelId.
+// Defines values for LoginInChannelId.
 const (
-	N0 LoginChannelId = 0
-	N1 LoginChannelId = 1
-	N2 LoginChannelId = 2
+	N0 LoginInChannelId = 0
+	N1 LoginInChannelId = 1
+	N2 LoginInChannelId = 2
 )
 
-// Defines values for LoginPlatform.
+// Defines values for LoginInPlatform.
 const (
-	Android LoginPlatform = "android"
-	Iphone  LoginPlatform = "iphone"
+	Android LoginInPlatform = "android"
+	Iphone  LoginInPlatform = "iphone"
 )
 
 // ErrorCode defines model for ErrorCode.
@@ -26,47 +26,53 @@ type ErrorCode struct {
 	Errmsg  *string `json:"errmsg,omitempty"`
 }
 
-// Login defines model for Login.
-type Login struct {
+// LoginIn defines model for LoginIn.
+type LoginIn struct {
 	// ChannelId 0 for dev, 1 for wchat, 2 for qq
-	ChannelId *LoginChannelId `json:"channelId,omitempty"`
-	OpenId    string          `json:"openId"`
-	Platform  LoginPlatform   `json:"platform"`
+	ChannelId *LoginInChannelId `json:"channelId,omitempty"`
+	OpenId    string            `json:"openId"`
+	Platform  LoginInPlatform   `json:"platform"`
 }
 
-// LoginChannelId 0 for dev, 1 for wchat, 2 for qq
-type LoginChannelId int
+// LoginInChannelId 0 for dev, 1 for wchat, 2 for qq
+type LoginInChannelId int
 
-// LoginPlatform defines model for Login.Platform.
-type LoginPlatform string
+// LoginInPlatform defines model for LoginIn.Platform.
+type LoginInPlatform string
 
-// User defines model for User.
-type User struct {
+// LoginOut defines model for LoginOut.
+type LoginOut struct {
+	Token string `json:"token"`
+}
+
+// UserIn defines model for UserIn.
+type UserIn struct {
 	Id   int64  `json:"id"`
 	Name string `json:"name"`
 }
+
+// UserOut defines model for UserOut.
+type UserOut = UserIn
 
 // ResError defines model for ResError.
 type ResError = ErrorCode
 
 // ResLogin defines model for ResLogin.
 type ResLogin struct {
-	Data *struct {
-		Token *string `json:"token,omitempty"`
-	} `json:"data,omitempty"`
-	Errcode int32   `json:"errcode"`
-	Errmsg  *string `json:"errmsg,omitempty"`
+	Data    *LoginOut `json:"data,omitempty"`
+	Errcode int32     `json:"errcode"`
+	Errmsg  *string   `json:"errmsg,omitempty"`
 }
 
 // ResUserGet defines model for ResUserGet.
 type ResUserGet struct {
-	Data    *User   `json:"data,omitempty"`
-	Errcode int32   `json:"errcode"`
-	Errmsg  *string `json:"errmsg,omitempty"`
+	Data    *UserOut `json:"data,omitempty"`
+	Errcode int32    `json:"errcode"`
+	Errmsg  *string  `json:"errmsg,omitempty"`
 }
 
 // PostLoginJSONRequestBody defines body for PostLogin for application/json ContentType.
-type PostLoginJSONRequestBody = Login
+type PostLoginJSONRequestBody = LoginIn
 
 // PostUserJSONRequestBody defines body for PostUser for application/json ContentType.
-type PostUserJSONRequestBody = User
+type PostUserJSONRequestBody = UserIn

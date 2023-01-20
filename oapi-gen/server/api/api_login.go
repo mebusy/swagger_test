@@ -8,8 +8,6 @@ import (
 
 func (s *srvApi) PostLogin(w http.ResponseWriter, r *http.Request) {
 	var login ResLogin
-
-	login.Data = nil
-
+	login.Data = &LoginOut{Token: "apikey-123456"}
 	json.NewEncoder(w).Encode(login)
 }

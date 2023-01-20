@@ -24,7 +24,7 @@ paths:
         content:
           application/json:
             schema:
-              $ref: "#/components/schemas/Login" # <-------
+              $ref: "#/components/schemas/LoginIn" # <-------
       responses:
         200:
           $ref: '#/components/responses/ResLogin'
@@ -47,7 +47,7 @@ paths:
         content:
           application/json:
             schema:
-              $ref: "#/components/schemas/User" # <-------
+              $ref: "#/components/schemas/UserIn" # <-------
       responses:
         200:
           $ref: '#/components/responses/ResError'
@@ -59,8 +59,8 @@ components:
       in: header
       name: token
 
-  schemas:
-    Login:
+  schemas: # global schemas here
+    LoginIn:
       type: object
       properties:
         openId:
@@ -80,7 +80,15 @@ components:
       required:
         - openId
         - platform
-    User:
+    LoginOut:
+      type: object
+      properties:
+        token:  # apikey
+          type: string
+      required:
+        - token
+        
+    UserIn:
       type: object
       properties:
         id:
@@ -95,6 +103,9 @@ components:
       required:
         - id
         - name
+    UserOut:
+      $ref: '#/components/schemas/UserIn'
+    
     ErrorCode:
       properties:
         errcode:
@@ -104,8 +115,10 @@ components:
           type: string
       required:
         - errcode
-          
-  responses:
+  
+  # requestBodies: # global request body components
+    
+  responses: # global response components
     ResError:
       description: errcode - 0 if successful.
                    otherwise means error happen.
@@ -122,8 +135,8 @@ components:
               - $ref: '#/components/schemas/ErrorCode'
               - type: object
                 properties:
-                  data: # insert `User` to `ErrorCode` struct as a key-value pair
-                    $ref: "#/components/schemas/User"
+                  data: # insert `UserOut` to `ErrorCode` struct as a key-value pair
+                    $ref: "#/components/schemas/UserOut"
     ResLogin:
       description: acquire token
       content:
@@ -134,10 +147,7 @@ components:
               - type: object
                 properties:
                   data: 
-                    type: object
-                    properties:
-                      token:  # apikey
-                        type: string
+                    $ref: '#/components/schemas/LoginOut'
 
 
             

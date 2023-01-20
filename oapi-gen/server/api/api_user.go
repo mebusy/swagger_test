@@ -10,7 +10,7 @@ func (s *srvApi) GetUser(w http.ResponseWriter, r *http.Request) {
 	var userget ResUserGet
 
 	userget.Errcode = ERR_NO_ERROR
-	userget.Data = &User{Id: 12, Name: "cy"}
+	userget.Data = &UserOut{Id: 12, Name: "cy"}
 
 	json.NewEncoder(w).Encode(userget)
 }
