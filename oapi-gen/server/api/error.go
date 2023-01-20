@@ -33,4 +33,4 @@ func Json2ResError(s string) ResError {
 	return e
 }
 
-var NoError = ResError{Errcode: ERR_NO_ERROR}
+var RES_NOERROR = ResError{Errcode: ERR_NO_ERROR}

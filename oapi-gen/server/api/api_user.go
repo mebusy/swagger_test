@@ -7,9 +7,14 @@ import (
 )
 
 func (s *srvApi) GetUser(w http.ResponseWriter, r *http.Request) {
-	json.NewEncoder(w).Encode(NoError)
+	var userget ResUserGet
+
+	userget.Errcode = ERR_NO_ERROR
+	userget.Data = &User{Id: 12, Name: "cy"}
+
+	json.NewEncoder(w).Encode(userget)
 }
 
 func (s *srvApi) PostUser(w http.ResponseWriter, r *http.Request) {
-	json.NewEncoder(w).Encode(NoError)
+	json.NewEncoder(w).Encode(RES_NOERROR)
 }
