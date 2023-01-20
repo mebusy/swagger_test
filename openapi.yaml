@@ -21,7 +21,7 @@ paths:
       summary: return user info
       responses:
         200:
-          $ref: '#/components/responses/ResErrorCode'
+          $ref: '#/components/responses/ResGetUser'
           
     post:
       tags:
@@ -78,6 +78,17 @@ components:
         application/json:          
           schema:
             $ref: '#/components/schemas/ErrorCode'
+    ResGetUser:
+      description: get user profile
+      content:
+        application/json:          
+          schema:
+            allOf:
+              - $ref: '#/components/schemas/ErrorCode'
+              - type: object
+                properties:
+                  data: # insert `User` to `ErrorCode` struct as a key-value pair
+                    $ref: "#/components/schemas/User"
 
 
             
