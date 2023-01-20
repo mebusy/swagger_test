@@ -11,6 +11,7 @@ const (
 
 	ERR_APIKEY_NOT_PROVIDED = 10
 	ERR_VALIDATOR_ERROR     = 20
+	ERR_INVALID_BODY        = 20
 )
 
 // ResError is also a custom error type
