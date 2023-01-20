@@ -4,7 +4,6 @@ import (
 	"context"
 	"encoding/json"
 	// "errors"
-	"fmt"
 
 	"net/http"
 	"strings"
@@ -46,7 +45,6 @@ func CustomErrorHandler(w http.ResponseWriter, message string, statusCode int) {
 
 	// validator error
 	err := Json2ResError(message)
-	fmt.Printf("%+v", err)
 	if err.Errcode > 0 {
 		// custom error
 		json.NewEncoder(w).Encode(err)
