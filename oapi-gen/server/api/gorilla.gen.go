@@ -8,11 +8,15 @@ import (
 	"fmt"
 	"net/http"
 
+	"github.com/deepmap/oapi-codegen/pkg/runtime"
 	"github.com/gorilla/mux"
 )
 
 // ServerInterface represents all server handlers.
 type ServerInterface interface {
+	// common tool api
+	// (GET /)
+	Get(w http.ResponseWriter, r *http.Request, params GetParams)
 	// login & acquire apikey from server
 	// (POST /login)
 	PostLogin(w http.ResponseWriter, r *http.Request)
@@ -32,6 +36,34 @@ type ServerInterfaceWrapper struct {
 }
 
 type MiddlewareFunc func(http.HandlerFunc) http.HandlerFunc
+
+// Get operation middleware
+func (siw *ServerInterfaceWrapper) Get(w http.ResponseWriter, r *http.Request) {
+	ctx := r.Context()
+
+	var err error
+
+	// Parameter object where we will unmarshal all parameters from the context
+	var params GetParams
+
+	// ------------- Optional query parameter "api" -------------
+
+	err = runtime.BindQueryParameter("form", true, false, "api", r.URL.Query(), &params.Api)
+	if err != nil {
+		siw.ErrorHandlerFunc(w, r, &InvalidParamFormatError{ParamName: "api", Err: err})
+		return
+	}
+
+	var handler = func(w http.ResponseWriter, r *http.Request) {
+		siw.Handler.Get(w, r, params)
+	}
+
+	for _, middleware := range siw.HandlerMiddlewares {
+		handler = middleware(handler)
+	}
+
+	handler(w, r.WithContext(ctx))
+}
 
 // PostLogin operation middleware
 func (siw *ServerInterfaceWrapper) PostLogin(w http.ResponseWriter, r *http.Request) {
@@ -194,6 +226,8 @@ func HandlerWithOptions(si ServerInterface, options GorillaServerOptions) http.H
 		HandlerMiddlewares: options.Middlewares,
 		ErrorHandlerFunc:   options.ErrorHandlerFunc,
 	}
+
+	r.HandleFunc(options.BaseURL+"/", wrapper.Get).Methods("GET")
 
 	r.HandleFunc(options.BaseURL+"/login", wrapper.PostLogin).Methods("POST")
 

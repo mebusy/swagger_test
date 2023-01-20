@@ -14,6 +14,28 @@ security: # apply 1 only aothorization globally
 
 
 paths:
+  /:
+    get:
+      security: []  # common API no authentication
+      tags:
+        - commom
+      summary: common tool api
+      parameters:
+        - name: api
+          in: query
+          description: sub api
+          schema:
+            type : string
+      responses:
+        200:
+          description: ok
+          content:
+            text/plain:
+              schema:
+                type: string
+                example: ok
+    
+          
   /login:
     post:
       security: []  # login do not need authentication

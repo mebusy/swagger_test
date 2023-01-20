@@ -71,6 +71,12 @@ type ResUserGet struct {
 	Errmsg  *string  `json:"errmsg,omitempty"`
 }
 
+// GetParams defines parameters for Get.
+type GetParams struct {
+	// Api sub api
+	Api *string `form:"api,omitempty" json:"api,omitempty"`
+}
+
 // PostLoginJSONRequestBody defines body for PostLogin for application/json ContentType.
 type PostLoginJSONRequestBody = LoginIn
 
