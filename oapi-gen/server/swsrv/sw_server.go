@@ -9,6 +9,7 @@ import (
 
 	middleware "github.com/deepmap/oapi-codegen/pkg/chi-middleware"
 	"github.com/gorilla/mux"
+	_ "net/http/pprof" // profile
 
 	"server/api"
 	"server/utils"
@@ -20,6 +21,15 @@ func StartServer(port int) {
 
 	utils.MaxOpenFiles()
 	log.SetFlags(log.LstdFlags | log.Lshortfile)
+
+	// profile server
+	// If your application is not already running an http server, you need to start one.
+	// Add "net/http" and "log" to your imports and the following code to your main function:
+	go func() {
+		profile_port := port + 10001
+		fmt.Printf("Start profile server on localhost:%d/debug/pprof/ \n", profile_port)
+		log.Println(http.ListenAndServe(fmt.Sprintf("localhost:%d", profile_port), nil))
+	}()
 
 	swagger, err := api.GetSwagger()
 	if err != nil {
@@ -62,7 +72,7 @@ func StartServer(port int) {
 		IdleTimeout:  time.Second * 60,
 	}
 
-	fmt.Println("Listening on port", port)
+	fmt.Printf("Server Listening on port :%d\n", port)
 	// And we serve HTTP until the world ends.
 	log.Fatal(s.ListenAndServe())
 }
