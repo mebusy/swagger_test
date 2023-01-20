@@ -37,8 +37,6 @@ type MiddlewareFunc func(http.HandlerFunc) http.HandlerFunc
 func (siw *ServerInterfaceWrapper) PostLogin(w http.ResponseWriter, r *http.Request) {
 	ctx := r.Context()
 
-	ctx = context.WithValue(ctx, ApiKeyAuthScopes, []string{""})
-
 	var handler = func(w http.ResponseWriter, r *http.Request) {
 		siw.Handler.PostLogin(w, r)
 	}

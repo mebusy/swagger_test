@@ -16,6 +16,7 @@ security: # apply 1 only aothorization globally
 paths:
   /login:
     post:
+      security: []  # login do not need authentication
       tags:
         - login
       summary: login & acquire apikey from server
