@@ -117,8 +117,8 @@ components:
         id:
           type: integer
           format: int64
-          minimum: 10
-          example: 10
+          minimum: 1
+          example: 1
         name:
           type: string
           pattern: '^[A-Za-z0-9-_]+$'
