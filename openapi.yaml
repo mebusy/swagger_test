@@ -21,7 +21,7 @@ paths:
       summary: return user info
       responses:
         200:
-          $ref: '#/components/responses/ResGetUser'
+          $ref: '#/components/responses/ResUserGet'
           
     post:
       tags:
@@ -35,7 +35,7 @@ paths:
               $ref: "#/components/schemas/User" # <-------
       responses:
         200:
-          $ref: '#/components/responses/ResErrorCode'
+          $ref: '#/components/responses/ResError'
 
 components:
   securitySchemes:
@@ -71,17 +71,17 @@ components:
         - errcode
           
   responses:
-    ResErrorCode:
+    ResError:
       description: errcode - 0 if successful.
                    otherwise means error happen.
       content:
         application/json:          
           schema:
             $ref: '#/components/schemas/ErrorCode'
-    ResGetUser:
+    ResUserGet:
       description: get user profile
       content:
-        application/json:          
+        application/json:
           schema:
             allOf:
               - $ref: '#/components/schemas/ErrorCode'

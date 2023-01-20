@@ -19,11 +19,11 @@ type User struct {
 	Name string `json:"name"`
 }
 
-// ResErrorCode defines model for ResErrorCode.
-type ResErrorCode = ErrorCode
+// ResError defines model for ResError.
+type ResError = ErrorCode
 
-// ResGetUser defines model for ResGetUser.
-type ResGetUser struct {
+// ResUserGet defines model for ResUserGet.
+type ResUserGet struct {
 	Data    *User   `json:"data,omitempty"`
 	Errcode int32   `json:"errcode"`
 	Errmsg  *string `json:"errmsg,omitempty"`

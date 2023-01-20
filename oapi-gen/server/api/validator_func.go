@@ -45,7 +45,7 @@ func CustomErrorHandler(w http.ResponseWriter, message string, statusCode int) {
 	}
 
 	// validator error
-	err := Json2ResErrorCode(message)
+	err := Json2ResError(message)
 	fmt.Printf("%+v", err)
 	if err.Errcode > 0 {
 		// custom error
@@ -58,7 +58,7 @@ func CustomErrorHandler(w http.ResponseWriter, message string, statusCode int) {
 		if idx > 0 {
 			message = message[idx:]
 		}
-		var res = ResErrorCode{Errcode: ERR_VALIDATOR_ERROR, Errmsg: &message}
+		var res = ResError{Errcode: ERR_VALIDATOR_ERROR, Errmsg: &message}
 		json.NewEncoder(w).Encode(res)
 		return
 	}

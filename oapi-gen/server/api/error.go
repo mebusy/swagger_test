@@ -13,24 +13,24 @@ const (
 	ERR_VALIDATOR_ERROR     = 20
 )
 
-// ResErrorCode is also a custom error type
-func (e ResErrorCode) Error() string {
+// ResError is also a custom error type
+func (e ResError) Error() string {
 	var b strings.Builder
 	json.NewEncoder(&b).Encode(e)
 	return b.String()
 }
 
-func NewResError(code int32, msg string) ResErrorCode {
-	return ResErrorCode{
+func NewResError(code int32, msg string) ResError {
+	return ResError{
 		Errcode: code,
 		Errmsg:  &msg,
 	}
 }
 
-func Json2ResErrorCode(s string) ResErrorCode {
-	var e ResErrorCode
+func Json2ResError(s string) ResError {
+	var e ResError
 	json.NewDecoder(strings.NewReader(s)).Decode(&e)
 	return e
 }
 
-var NoError = ResErrorCode{Errcode: ERR_NO_ERROR}
+var NoError = ResError{Errcode: ERR_NO_ERROR}
